@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOリスト</title>
+</head>
+
+<style>
+    .todoChkList {
+        padding-left: 0;
+    }
+
+    .todoChkList li {
+        list-style: none;
+    }
+
+    .todoChecked {
+        text-decoration: line-through;
+    }
+</style>
+
+<body>
+    <div id="todoApp">
+        <h1>TODOリスト</h1>
+        <input type="text" v-model="newTask" placeholder="TODOを入力しましょう！">
+        <button @click="addButton">TODOを追加</button>
+        <ul class="todoChkList">
+            <li v-for="todo in todos">
+                <label class="chkLable" :class="{ todoChecked: todo.isChecked }">
+                    <input type="checkbox" v-model="todo.isChecked">
+                    {{ todo.task }}
+                </label>
+            </li>
+        </ul>
+        <button @click="rmButton">チェック済みの項目を削除する</button>
+    </div>
+</body>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="main.js"></script>
+
+</html>

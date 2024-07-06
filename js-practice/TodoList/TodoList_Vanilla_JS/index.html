@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOリスト</title>
+</head>
+
+<style>
+    .todo_chk_list {
+        padding-left: 0;
+    }
+
+    .todo_chk_list li {
+        list-style: none;
+    }
+
+    .chk_lable:has(.chk_input:checked) {
+        text-decoration: line-through;
+    }
+</style>
+
+<body>
+    <h1>TODOリスト</h1>
+    <input type="text" name="add_text" placeholder="TODOを入力しましょう！">
+    <input type="button" id="add_button" value="TODOを追加">
+    <ul class="todo_chk_list"></ul>
+    <input type="button" id="rm_button" value="チェック済みの項目を削除する">
+</body>
+
+<script src="./nodeOps.js"></script>
+<script>
+    'use strict';
+    const addButton = () => {
+        const inputText = nodeOps.elByName('add_text');
+        let text = inputText[0].value;
+        if (text === '') {
+            alert('TODOを入力しましょう！');
+            return;
+        }
+        inputText[0].value = '';
+        createTodoChkBox(nodeOps.elByClass('todo_chk_list')[0], text);
+    };
+
+    const rmButton = () => {
+        const checkedList = nodeOps.qsAll(".chk_list [name='chk']:checked");
+        checkedList.forEach(element => element.closest('li').remove());
+    }
+
+    nodeOps.addEvent(nodeOps.elById('add_button'), 'click', addButton);
+    nodeOps.addEvent(nodeOps.elById('rm_button'), 'click', rmButton);
+
+    function createTodoChkBox(baseEl, text) {
+
+        const li = nodeOps.createEl('li');
+        const input = nodeOps.createEl('input');
+        const label = nodeOps.createEl('label');
+
+        nodeOps.setAttr(li, 'class', 'chk_list');
+        nodeOps.setAttr(input, 'type', 'checkbox');
+        nodeOps.setAttr(input, 'name', 'chk');
+        nodeOps.setAttr(input, 'class', 'chk_input');
+        nodeOps.setAttr(label, 'class', 'chk_lable');
+        nodeOps.append(label, input);
+        nodeOps.insertHTML(label, 'beforeend', text);
+        nodeOps.append(li, label);
+        nodeOps.append(baseEl, li);
+    }
+</script>
+
+</html>
